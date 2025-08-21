@@ -152,6 +152,23 @@ export interface Page extends CosmicObject {
   };
 }
 
+// Component Props Interfaces
+export interface HeroSectionProps {
+  page: Page;
+}
+
+export interface ServicesShowcaseProps {
+  services: Service[];
+}
+
+export interface FeaturedWorkProps {
+  projects: Project[];
+}
+
+export interface TestimonialsSectionProps {
+  testimonials: Testimonial[];
+}
+
 // API response interface
 export interface CosmicResponse<T> {
   objects: T[];
