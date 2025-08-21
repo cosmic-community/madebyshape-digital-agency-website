@@ -1,15 +1,16 @@
 import { MetadataRoute } from 'next'
 import { getProjects, getBlogPosts, getServices } from '@/lib/cosmic'
+import { Project, BlogPost, Service } from '@/types'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://yoursite.com' // Replace with your actual domain
+  const baseUrl = 'https://madebyshape.co.uk'
 
-  // Static routes
-  const staticRoutes: MetadataRoute.Sitemap = [
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'monthly',
       priority: 1,
     },
     {
@@ -21,61 +22,61 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/services`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.6,
     },
   ]
 
   try {
-    // Dynamic routes
-    const [projects, posts, services] = await Promise.all([
-      getProjects(),
-      getBlogPosts(),
-      getServices(),
-    ])
-
-    const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    // Dynamic project pages
+    const projects = await getProjects() as Project[]
+    const projectPages: MetadataRoute.Sitemap = projects.map((project: Project) => ({
       url: `${baseUrl}/work/${project.slug}`,
       lastModified: new Date(project.modified_at),
       changeFrequency: 'monthly' as const,
-      priority: 0.6,
+      priority: 0.7,
     }))
 
-    const blogRoutes: MetadataRoute.Sitemap = posts.map((post) => ({
+    // Dynamic blog post pages
+    const posts = await getBlogPosts() as BlogPost[]
+    const blogPages: MetadataRoute.Sitemap = posts.map((post: BlogPost) => ({
       url: `${baseUrl}/blog/${post.slug}`,
       lastModified: new Date(post.modified_at),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }))
 
-    const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({
+    // Dynamic service pages
+    const services = await getServices() as Service[]
+    const servicePages: MetadataRoute.Sitemap = services.map((service: Service) => ({
       url: `${baseUrl}/services/${service.slug}`,
       lastModified: new Date(service.modified_at),
       changeFrequency: 'monthly' as const,
-      priority: 0.6,
+      priority: 0.7,
     }))
 
-    return [...staticRoutes, ...projectRoutes, ...blogRoutes, ...serviceRoutes]
+    return [...staticPages, ...projectPages, ...blogPages, ...servicePages]
   } catch (error) {
     console.error('Error generating sitemap:', error)
-    return staticRoutes
+    // Return static pages if dynamic content fails
+    return staticPages
   }
 }
