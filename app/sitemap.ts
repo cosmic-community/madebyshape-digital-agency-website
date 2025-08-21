@@ -2,44 +2,61 @@ import { MetadataRoute } from 'next'
 import { getProjects, getBlogPosts, getServices } from '@/lib/cosmic'
 import { Project, BlogPost, Service } from '@/types'
 
+// Helper function to safely create a Date object with fallback
+function createSafeDate(dateString?: string): Date {
+  if (!dateString) {
+    return new Date()
+  }
+  
+  const date = new Date(dateString)
+  
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    return new Date()
+  }
+  
+  return date
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://madebyshape.co.uk'
+  const currentDate = new Date()
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 1,
     },
     {
       url: `${baseUrl}/work`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/services`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.6,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.6,
     },
@@ -50,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const projects = await getProjects() as Project[]
     const projectPages: MetadataRoute.Sitemap = projects.map((project: Project) => ({
       url: `${baseUrl}/work/${project.slug}`,
-      lastModified: new Date(project.modified_at),
+      lastModified: createSafeDate(project.modified_at),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }))
@@ -59,7 +76,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await getBlogPosts() as BlogPost[]
     const blogPages: MetadataRoute.Sitemap = posts.map((post: BlogPost) => ({
       url: `${baseUrl}/blog/${post.slug}`,
-      lastModified: new Date(post.modified_at),
+      lastModified: createSafeDate(post.modified_at),
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     }))
@@ -68,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const services = await getServices() as Service[]
     const servicePages: MetadataRoute.Sitemap = services.map((service: Service) => ({
       url: `${baseUrl}/services/${service.slug}`,
-      lastModified: new Date(service.modified_at),
+      lastModified: createSafeDate(service.modified_at),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }))
