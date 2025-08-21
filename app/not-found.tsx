@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Search, Home, ArrowLeft } from 'lucide-react'
+import { Search, Home } from 'lucide-react'
 
 export default function NotFound() {
   return (
@@ -22,14 +22,6 @@ export default function NotFound() {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            onClick={() => window.history.back()}
-            className="btn-secondary inline-flex items-center"
-          >
-            <ArrowLeft size={20} className="mr-2" />
-            Go Back
-          </button>
-          
           <Link href="/" className="btn-primary inline-flex items-center">
             <Home size={20} className="mr-2" />
             Go Home
