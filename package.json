@@ -1,7 +1,7 @@
 {
   "name": "madebyshape-agency-website",
   "version": "1.0.0",
-  "description": "A sophisticated digital agency website built with Next.js and Cosmic CMS",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,31 +11,22 @@
     "prebuild": "bun run type-check"
   },
   "dependencies": {
-    "next": "15.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@cosmicjs/sdk": "^1.5.5",
-    "framer-motion": "^11.0.0",
-    "lucide-react": "^0.344.0"
+    "lucide-react": "^0.263.1",
+    "next": "15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "typescript": "^5.0.0",
-    "eslint": "^8.57.0",
+    "@tailwindcss/typography": "^0.5.10",
+    "@types/node": "^22.8.4",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.57.1",
     "eslint-config-next": "15.1.0",
+    "postcss": "^8.4.33",
     "tailwindcss": "^3.4.0",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.0"
-  },
-  "keywords": [
-    "nextjs",
-    "cosmic-cms",
-    "digital-agency",
-    "portfolio",
-    "website",
-    "typescript",
-    "tailwind"
-  ]
+    "typescript": "^5.3.3"
+  }
 }
